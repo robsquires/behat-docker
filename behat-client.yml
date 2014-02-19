@@ -1,0 +1,4 @@
+default:
+  extensions:
+    VIPSoft\GearmanExtension\Extension:
+      command_class:     VIPSoft\GearmanExtension\Console\Command\GearmanClientCommand

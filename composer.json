@@ -1,0 +1,11 @@
+{
+    "name": "squirrel/behat-docker",
+    "require": {
+        "vipsoft/gearman-extension": "*",
+        "behat/behat": "2.4.*@stable"
+    },
+
+    "config": {
+        "bin-dir": "bin/"
+    }
+}

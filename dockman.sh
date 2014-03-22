@@ -100,7 +100,7 @@ gearman_cnt_name=$cnt_namespace.gearman
 remove_container $gearman_cnt_name
 
 echo "--> Starting container: $gearman_cnt_name"
-#docker run -d -name $gearman_cnt_name $gearman_cnt_image
+docker run -d -name $gearman_cnt_name $gearman_cnt_image
 
 #gearman link names
 

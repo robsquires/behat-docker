@@ -124,13 +124,12 @@ map_config 'worker_container__image' 'worker_cnt_image'
 
 worker_cnt_prefix=$cnt_namespace.worker-
 worker_cnt_cmd="$base_cnt_cmd 'bin/behat --config behat-worker.yml'"
-echo "$worker_cnt_prefix[0-9]+(?!/)"
-for  i in $(docker ps -a | grep -oP "$worker_cnt_prefix[0-9]+(?!/)")
+
+for  i in $(docker ps -a | grep -o "$worker_cnt_prefix[0-9]+(?!/)")
   do
     remove_container $i
 done
 
-exit 0;
 
 for (( i=1; i<=$pCount; i++ ))
 do
@@ -148,9 +147,9 @@ echo "-> SETTING UP CLIENT CONTAINER + RUNNING TESTS......."
 map_config 'client_container__image' 'client_cnt_image'
 
 client_cnt_name=$cnt_namespace.client
-client_cnt_cmd="$base_cnt_cmd  'bin/behat --config behat-client.yml'"
+client_cnt_cmd="$base_cnt_cmd 'bin/behat --config behat-client.yml'"
 
-for  i in $(docker ps -a | grep -oP "$client_cnt_name(?!/)")
+for  i in $(docker ps -a | grep -o "$client_cnt_name(?!/)")
   do
     remove_container $i
 done

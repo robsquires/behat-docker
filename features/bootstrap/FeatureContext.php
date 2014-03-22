@@ -19,6 +19,9 @@ use Behat\Gherkin\Node\PyStringNode,
  */
 class FeatureContext extends BehatContext
 {
+
+    private $file = '/tmp/app-data.txt';
+
     /**
      * Initializes context.
      * Every scenario gets it's own context object.
@@ -28,13 +31,61 @@ class FeatureContext extends BehatContext
     public function __construct(array $parameters)
     {
         // Initialize your context here
+        // 
     }
 
     /**
-     * @Given /^the scenario runs$/
+     *
      */
-    public function theScenarioRuns()
+    public function removeFile()
     {
-        sleep(1);
+        $file = $this->file;
+
+        exec("rm $file");
+        sleep(2);
+    }
+
+    /**
+     * @When /^I write the (\d+) lines? of random text to the file$/
+     */
+    public function iWriteTheLineOfRandomTextToTheFile($lines)
+    {
+        $this->removeFile();
+
+        $file = $this->file;
+
+        for($i=0; $i < $lines; $i++){
+            $text = $this->getRandString();
+            exec("echo $text >> $file");
+        }
+
+        
+    }
+
+    /**
+     * @Then /^the file should contain (\d+) lines?$/
+     */
+    public function theFileShouldContainLine($desiredLines)
+    {
+        $file = $this->file;
+
+        $lines = exec("cat $file | wc -l");
+
+        if($lines != $desiredLines){
+            throw new \Exception(
+                printf(
+                    'Expected %d lines, found %d',
+                    $desiredLines,
+                    $lines
+                )
+            );
+        }
+    }
+
+
+    private function getRandString()
+    {
+        return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 32);
+
     }
 }

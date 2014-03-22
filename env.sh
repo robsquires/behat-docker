@@ -20,6 +20,4 @@ gearman_port="GM_PORT_4730_TCP_PORT"
 export BEHAT_PARAMS="extensions[VIPSoft\GearmanExtension\Extension][gearman_server]=${!gearman_addr}:${!gearman_port}"
 
 # test="echo 'rob'"
-${1}
-
-exit $?
+bin/behat --config ${1}

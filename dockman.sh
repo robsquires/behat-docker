@@ -97,7 +97,12 @@ gearman_cnt_image='rgarcia/gearmand'
 gearman_cnt_name=$cnt_namespace.gearman
 
 
-remove_container $gearman_cnt_name
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+
+
+
+#remove_container $gearman_cnt_name
 
 echo "--> Starting container: $gearman_cnt_name"
 docker run -d -name $gearman_cnt_name $gearman_cnt_image
@@ -123,12 +128,12 @@ echo "-> SETTING UP $pCount WORKER CONTAINERS......."
 map_config 'worker_container__image' 'worker_cnt_image'
 
 worker_cnt_prefix=$cnt_namespace.worker-
-worker_cnt_cmd="$base_cnt_cmd 'bin/behat --config behat-worker.yml'"
+worker_cnt_cmd="$base_cnt_cmd behat-worker.yml"
 
-for  i in $(docker ps -a | grep -o "$worker_cnt_prefix[0-9]+(?!/)")
-  do
-    remove_container $i
-done
+#for  i in $(docker ps -a | grep -o "$worker_cnt_prefix[0-9]+(?!/)")
+#  do
+#    remove_container $i
+#done
 
 
 for (( i=1; i<=$pCount; i++ ))
@@ -147,13 +152,14 @@ echo "-> SETTING UP CLIENT CONTAINER + RUNNING TESTS......."
 map_config 'client_container__image' 'client_cnt_image'
 
 client_cnt_name=$cnt_namespace.client
-client_cnt_cmd="$base_cnt_cmd 'bin/behat --config behat-client.yml'"
+client_cnt_cmd="$base_cnt_cmd behat-client.yml"
 
-for  i in $(docker ps -a | grep -o "$client_cnt_name(?!/)")
-  do
-    remove_container $i
-done
+#for  i in $(docker ps -a | grep -o "$client_cnt_name(?!/)")
+#  do
+#    remove_container $i
+#done
 
 
 echo "--> Creating client container: $client_cnt_name"
 docker run -t -i -rm --link $gearman_link_name -name $client_cnt_name $client_cnt_image $client_cnt_cmd
+

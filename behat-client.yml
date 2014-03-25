@@ -1,6 +1,0 @@
-default:
-  formatter:
-    name:    progress
-  extensions:
-    VIPSoft\GearmanExtension\Extension:
-      command_class:     VIPSoft\GearmanExtension\Console\Command\GearmanClientCommand

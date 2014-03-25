@@ -1,0 +1,13 @@
+worker:
+  formatter:
+    name:    recorder
+  extensions:
+    VIPSoft\GearmanExtension\Extension:
+      command_class:     VIPSoft\GearmanExtension\Console\Command\GearmanWorkerCommand
+
+client:
+  formatter:
+    name:    progress
+  extensions:
+    VIPSoft\GearmanExtension\Extension:
+      command_class:     VIPSoft\GearmanExtension\Console\Command\GearmanClientCommand
